@@ -1,0 +1,30 @@
+body {
+  font-family: sans-serif;
+  padding: 1em;
+}
+
+.edit_file_content {
+  min-height: 237px;
+  min-width: 489px;
+}
+
+.success {
+  background: #ffffb5;
+}
+
+.error {
+  background: #f3c8c5;
+}
+
+.sucess, .error {
+  padding: 10px;
+}
+
+form.inline {
+  display: inline;
+}
+
+.user-status {
+  font-style: italic;
+  font-size: 0.9em;
+}

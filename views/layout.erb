@@ -3,8 +3,19 @@
   <head>
     <title>CMS</title>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/app.css">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
   </head>
   <body>
+
+    <% if session[:error] %>
+      <p class="error"><%= session.delete(:error) %></p>
+    <% end %>
+
+    <% if session[:success] %>
+      <p class="success"><%= session.delete(:success) %></p>
+    <% end %>
+
     <main>
       <%= yield %>
     </main>
