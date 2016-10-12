@@ -115,6 +115,12 @@ class AppTest < Minitest::Test
     assert_includes last_response.body, 'A name is required'
   end
 
+  def test_create_new_document_with_invalid_extension
+    post '/file/new', { file: 'test.erb' }, admin_session
+    assert_equal 422, last_response.status
+    assert_includes last_response.body, 'File must have a .txt or .md extension.'
+  end
+
   def test_deleting_file
     create_document 'remove.txt'
     post '/file/delete', { file: 'remove.txt' }, admin_session
@@ -133,7 +139,7 @@ class AppTest < Minitest::Test
   end
 
   def test_successful_sigin
-    post '/user/signin', username: 'admin', password: 'secret'
+    post '/user/signin', { username: 'admin', password: 'password' }
     assert_equal 302, last_response.status
     assert_equal session[:success], 'Welcome admin!'
   end
@@ -149,5 +155,25 @@ class AppTest < Minitest::Test
     post '/user/signout', username: 'admin'
     assert_equal 302, last_response.status
     assert_equal session[:success], 'You have been signed out.'
+  end
+
+  def test_copying_a_file
+    create_document 'test.txt'
+    post '/file/copy', { file: 'test.txt' }, admin_session
+
+    assert_equal 302, last_response.status
+    assert_equal session[:success], 'test.txt has been copied.'
+
+    get '/'
+    assert_includes last_response.body, 'test_copy1.txt'
+  end
+
+  def test_sign_up
+    post '/user/signup', { username: 'new', password: 'pass' }
+    assert_equal session[:success], 'Account creation successful, you can now sign in.'
+
+    post '/user/signin', { username: 'new', password: 'pass' }
+    assert_equal 302, last_response.status
+    assert_equal session[:success], 'Welcome new!'
   end
 end

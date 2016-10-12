@@ -6,11 +6,16 @@
         <input type="hidden" name="file" value="<%= file %>">
         <button type="submit">delete</button>
       </form>
+      <form class="inline" action="/file/copy" method="post">
+        <input type="hidden" name="file" value="<%= file %>">
+        <button type="submit">copy</button>
+      </form>
     </li>
   <% end %>
 </ul>
 
 <p><a href="/file/new">New Document</a></p>
+<p><a href="/image/new">New Image</a></p>
 
 <% if session[:username] %>
   <form action="/user/signout" method="post">
@@ -21,4 +26,5 @@
   </form>
 <% else %>
   <p class="user-status"><a href="/user/signin">Sign In</a></p>
+  <p class="user-status"><a href="/user/signup">Sign Up</a></p>
 <% end %>
